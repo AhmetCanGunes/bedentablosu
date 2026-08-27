@@ -1,5 +1,4 @@
 /* === KADİRBÜYÜKKAYA BEDEN ÖNERİ (güvenli sürüm) === */
-/* Widget: her şey try/catch içinde, hata olsa bile sayfayı etkilemez. */
 try {
 /* KadirBüyükkaya — Beden Öneri (tek dosya) */
 (function () {
@@ -529,7 +528,7 @@ const URUNLER = {
     ad: "Takım Elbise", kalipKaydir: 0,
     adimlar: ["omuz", "vucut"],
     bedenler: ["46", "48", "50", "52", "54", "56", "58"],
-    oneri: { tip: "num", w: 0.245, h: -0.15, c: 29.19 },
+    oneri: { tip: "kilo", sinir: [74, 79, 84, 89, 99, 109, 999] },
     olcuTablosu: {
       basliklar: ["Beden", "Göğüs", "Bel", "Omuz", "Kol", "Arka Boy"],
       satirlar: [
@@ -546,7 +545,7 @@ const URUNLER = {
     ad: "Ceket", kalipKaydir: 0,
     adimlar: ["omuz", "vucut"],
     bedenler: ["46", "48", "50", "52", "54", "56", "58"],
-    oneri: { tip: "num", w: 0.245, h: -0.15, c: 29.19 },
+    oneri: { tip: "kilo", sinir: [74, 79, 84, 89, 99, 109, 999] },
     olcuTablosu: {
       basliklar: ["Beden", "Göğüs", "Bel", "Omuz", "Kol", "Arka Boy"],
       satirlar: [
@@ -566,7 +565,7 @@ const URUNLER = {
       ciftpile: {
         ad: "Çift Pile Pantolon", kalipKaydir: 0, slimFit: false,
         bedenler: ["40", "42", "44", "46", "48", "50", "52"],
-        oneri: { tip: "num", w: 0.245, h: -0.15, c: 23.19 },
+        oneri: { tip: "kilo", sinir: [74, 79, 84, 89, 99, 109, 999] },
         olcuTablosu: {
           basliklar: ["Beden", "Bel", "Basen", "Paça", "İç Boy"],
           satirlar: [
@@ -579,7 +578,7 @@ const URUNLER = {
       tekpile: {
         ad: "Tek Pile Pantolon", kalipKaydir: 0, slimFit: false,
         bedenler: ["40", "42", "44", "46", "48", "50", "52"],
-        oneri: { tip: "num", w: 0.245, h: -0.15, c: 23.19 },
+        oneri: { tip: "kilo", sinir: [74, 79, 84, 89, 99, 109, 999] },
         olcuTablosu: {
           basliklar: ["Beden", "Bel", "Basen", "Paça", "İç Boy"],
           satirlar: [
@@ -592,7 +591,7 @@ const URUNLER = {
       klasik: {
         ad: "Klasik Pantolon", kalipKaydir: 0, slimFit: false,
         bedenler: ["40", "42", "44", "46", "48", "50", "52"],
-        oneri: { tip: "num", w: 0.245, h: -0.15, c: 23.19 },
+        oneri: { tip: "kilo", sinir: [74, 79, 84, 89, 99, 109, 999] },
         olcuTablosu: {
           basliklar: ["Beden", "Bel", "Basen", "Paça", "İç Boy"],
           satirlar: [
@@ -605,13 +604,25 @@ const URUNLER = {
       jogger: {
         ad: "Jogger", kalipKaydir: 0, slimFit: false,
         bedenler: ["40", "42", "44", "46", "48", "50", "52"],
-        oneri: { tip: "num", w: 0.245, h: -0.15, c: 23.19 },
+        oneri: { tip: "kilo", sinir: [74, 79, 84, 89, 99, 109, 999] },
         olcuTablosu: {
           basliklar: ["Beden", "Bel", "Basen", "Paça", "İç Boy"],
           satirlar: [
             ["40", 72, 94, 26, 80], ["42", 76, 98, 26.5, 80], ["44", 80, 102, 27, 80],
             ["46", 84, 106, 27.5, 80], ["48", 88, 110, 28, 80], ["50", 92, 114, 28.5, 80],
             ["52", 96, 118, 29, 80],
+          ],
+        },
+      },
+      jean: {
+        ad: "Jean", kalipKaydir: 0, slimFit: false,
+        bedenler: ["30/31", "32", "34", "36", "38"],
+        oneri: { tip: "kilo", sinir: [74, 79, 89, 109, 999] },
+        olcuTablosu: {
+          basliklar: ["Beden", "Bel (cm)", "İç Boy"],
+          satirlar: [
+            ["30/31", 77, 82], ["32", 81, 82], ["34", 86, 83],
+            ["36", 91, 83], ["38", 97, 84],
           ],
         },
       },
@@ -623,7 +634,7 @@ const URUNLER = {
     ad: "Gömlek", kalipKaydir: 0,
     adimlar: ["omuz", "vucut"],
     bedenler: ["XS", "S", "M", "L", "XL", "XXL"],
-    oneri: { tip: "harf", w: 0.06, h: -0.04, c: -2.36 },
+    oneri: { tip: "kilo", sinir: [64, 74, 79, 89, 109, 999] },
     olcuTablosu: {
       basliklar: ["Beden", "Göğüs", "Bel", "Omuz", "Kol", "Yaka"],
       satirlar: [
@@ -638,7 +649,7 @@ const URUNLER = {
     ad: "Triko / Tişört", kalipKaydir: 0,
     adimlar: ["omuz", "vucut"],
     bedenler: ["M", "L", "XL", "XXL"],
-    oneri: { tip: "harf", w: 0.1, h: -0.05, c: -7.275 },
+    oneri: { tip: "kilo", sinir: [79, 89, 109, 999] },
     olcuTablosu: {
       basliklar: ["Beden", "Göğüs", "Boy", "Omuz", "Kol"],
       satirlar: [
@@ -653,7 +664,7 @@ const URUNLER = {
     ad: "Basic Tişört", kalipKaydir: 0,
     adimlar: ["omuz", "vucut"],
     bedenler: ["S", "M", "L", "XL", "XXL"],
-    oneri: { tip: "harf", w: 0.1, h: -0.05, c: -6.275 },
+    oneri: { tip: "kilo", sinir: [74, 79, 89, 109, 999] },
     olcuTablosu: {
       basliklar: ["Beden", "Göğüs", "Boy", "Omuz", "Kol"],
       satirlar: [
@@ -1045,6 +1056,12 @@ const bedenOneri = (function () {
   // ham = w*kilo + h*(boy-176) + c ; "num" -> en yakın beden numarası, "harf" -> index.
   function bedenIndex(u, boy, kilo){
     const o = u.oneri;
+    // Gerçek beden cetveli: kiloya göre doğrudan tablo
+    if (o.tip === "kilo"){
+      let i = o.sinir.findIndex(function(s){ return kilo <= s; });
+      if (i === -1) i = u.bedenler.length - 1;
+      return { i: i, ham: kilo, merkezler: u.bedenler.map(function(_,k){ return k; }) };
+    }
     const ham = o.w*kilo + o.h*(boy-176) + o.c;
     let merkezler, i;
     if (o.tip === "num"){
@@ -1206,21 +1223,40 @@ const bedenOneri = (function () {
 
 } catch (e) { if (window.console) console.error("BedenOneri widget:", e); }
 
-/* Butonu ürün sayfasına yerleştir (jQuery gerektirmez, tamamen savunmalı) */
-(function(){
+/* === Butonu "Sepete Ekle"nin ÜSTÜne yerleştir (sade ghost stil) === */
+(function () {
   var n = 0;
-  function koy(){
-    try {
-      if (document.querySelector(".beden-oneri-btn")) return;
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "bo-tetik bo-tetik--vurgu bo-tetik--pill beden-oneri-btn";
-      b.textContent = "Hangi beden bana uyar?";
-      b.onclick = function(){ try { if (window.bedenOneri) window.bedenOneri.ac(); } catch(e){} };
-      var ref = document.getElementById("magaza-stok-btn");
-      if (ref && ref.parentNode) { ref.parentNode.insertBefore(b, ref); return; }
-      if (n++ < 20) setTimeout(koy, 400);
-    } catch(e){}
+  function sepetBul() {
+    var sel = ['.SepeteEkle', '#SepeteEkle', 'a.SepeteEkle', '.btnSepeteEkle',
+               '.sepeteEkle', '[onclick*="SepeteEkle"]', '[onclick*="sepeteEkle"]', '[onclick*="SepeteAt"]'];
+    for (var i = 0; i < sel.length; i++) { var e = document.querySelector(sel[i]); if (e) return e; }
+    var list = document.querySelectorAll('button, a, input[type="button"], input[type="submit"], .btn');
+    for (var j = 0; j < list.length; j++) {
+      var t = (list[j].textContent || list[j].value || '').trim().toLowerCase();
+      if (t === 'sepete ekle') return list[j];
+    }
+    return null;
   }
-  koy();
+  function yap() {
+    try {
+      if (document.querySelector('.beden-oneri-btn')) return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'bo-tetik bo-tetik--ghost beden-oneri-btn';
+      b.style.width = '100%';
+      b.style.margin = '0 0 10px';
+      b.style.justifyContent = 'center';
+      b.innerHTML = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7v3M10 7v4M14 7v3M18 7v4"/></svg>Hangi beden bana uyar?';
+      b.onclick = function () { try { if (window.bedenOneri) window.bedenOneri.ac(); } catch (e) {} };
+      var ref = sepetBul();
+      if (ref && ref.parentNode && ref.parentNode.parentNode) {
+        ref.parentNode.parentNode.insertBefore(b, ref.parentNode); return;   // satırın üstüne
+      }
+      if (ref && ref.parentNode) { ref.parentNode.insertBefore(b, ref); return; }
+      var m = document.getElementById('magaza-stok-btn');
+      if (m && m.parentNode) { m.parentNode.insertBefore(b, m); return; }
+      if (n++ < 25) setTimeout(yap, 400);
+    } catch (e) {}
+  }
+  yap();
 })();
