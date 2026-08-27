@@ -1,3 +1,6 @@
+/* === KADİRBÜYÜKKAYA BEDEN ÖNERİ (güvenli sürüm) === */
+/* Widget: her şey try/catch içinde, hata olsa bile sayfayı etkilemez. */
+try {
 /* KadirBüyükkaya — Beden Öneri (tek dosya) */
 (function () {
   if (window.__bedenOneriYuklendi) return;
@@ -1201,15 +1204,23 @@ const bedenOneri = (function () {
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',kur);else kur();
 })();
 
+} catch (e) { if (window.console) console.error("BedenOneri widget:", e); }
 
-/* --- Butonu ürün sayfasına yerleştir (Ticimax: #magaza-stok-btn üstüne) --- */
+/* Butonu ürün sayfasına yerleştir (jQuery gerektirmez, tamamen savunmalı) */
 (function(){
-  function yerlestir(){
-    if (window.jQuery && jQuery('.bo-tetik-kb').length===0){
-      jQuery('<button class="bo-tetik bo-tetik--vurgu bo-tetik--pill bo-tetik-kb" onclick="bedenOneri.ac()">Hangi beden bana uyar?</button>')
-        .insertBefore('#magaza-stok-btn');
-    }
+  var n = 0;
+  function koy(){
+    try {
+      if (document.querySelector(".beden-oneri-btn")) return;
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "bo-tetik bo-tetik--vurgu bo-tetik--pill beden-oneri-btn";
+      b.textContent = "Hangi beden bana uyar?";
+      b.onclick = function(){ try { if (window.bedenOneri) window.bedenOneri.ac(); } catch(e){} };
+      var ref = document.getElementById("magaza-stok-btn");
+      if (ref && ref.parentNode) { ref.parentNode.insertBefore(b, ref); return; }
+      if (n++ < 20) setTimeout(koy, 400);
+    } catch(e){}
   }
-  if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(yerlestir,700); });
-  else setTimeout(yerlestir,700);
+  koy();
 })();
