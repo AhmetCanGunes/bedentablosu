@@ -1223,7 +1223,7 @@ const bedenOneri = (function () {
 
 } catch (e) { if (window.console) console.error("BedenOneri widget:", e); }
 
-/* === Butonu KÜÇÜK yapıp Sepete Ekle satırının ÜSTÜne, ayrı satırda koy === */
+/* === Butonu, Sepete Ekle satırının TAMAMEN ÜSTÜne (bloğun dışına) koy === */
 (function () {
   var n = 0;
   function sepetBul() {
@@ -1237,17 +1237,21 @@ const bedenOneri = (function () {
     }
     return null;
   }
-  function yataySatirBul(el) {
+  // Yatay (flex-row) kapsayıcıların HEPSİNDEN yukarı çık; ilk dikey/blok kapsayıcıya varınca
+  // o kapsayıcının içindeki blok-çocuğu döndür (butonu onun ÜSTÜne koyacağız)
+  function ustBlok(el) {
     var cur = el;
-    for (var k = 0; k < 7 && cur && cur.parentNode; k++) {
+    for (var k = 0; k < 8 && cur && cur.parentNode; k++) {
       var p = cur.parentNode;
+      var row = false;
       try {
         var cs = window.getComputedStyle(p);
-        if ((cs.display === 'flex' || cs.display === 'inline-flex') && cs.flexDirection !== 'column') return p;
+        row = (cs.display === 'flex' || cs.display === 'inline-flex') && cs.flexDirection !== 'column';
       } catch (e) {}
+      if (!row) return cur;   // p bir sütun/blok; cur onun blok çocuğu
       cur = p;
     }
-    return null;
+    return el;
   }
   function yap() {
     try {
@@ -1255,18 +1259,16 @@ const bedenOneri = (function () {
       var ref = sepetBul();
       if (!ref || !ref.parentNode) { if (n++ < 25) setTimeout(yap, 400); return; }
 
-      // Kendi satırını kaplayan ama içeriği ortalı, tam genişlik OLMAYAN kutu
       var kutu = document.createElement('div');
       kutu.className = 'beden-oneri-kutu';
+      kutu.style.display = 'block';
       kutu.style.width = '100%';
-      kutu.style.flex = '0 0 100%';
       kutu.style.textAlign = 'center';
       kutu.style.margin = '2px 0 14px';
 
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'bo-tetik bo-tetik--ghost beden-oneri-btn';
-      // KÜÇÜK buton: tam genişlik değil, dar padding, küçük yazı
       b.style.width = 'auto';
       b.style.display = 'inline-flex';
       b.style.padding = '10px 20px';
@@ -1276,11 +1278,9 @@ const bedenOneri = (function () {
       b.onclick = function () { try { if (window.bedenOneri) window.bedenOneri.ac(); } catch (e) {} };
       kutu.appendChild(b);
 
-      var satir = yataySatirBul(ref);
-      if (satir && satir.parentNode) {
-        satir.parentNode.insertBefore(kutu, satir);
-      } else if (ref.parentNode && ref.parentNode.parentNode) {
-        ref.parentNode.parentNode.insertBefore(kutu, ref.parentNode);
+      var hedef = ustBlok(ref);
+      if (hedef && hedef.parentNode) {
+        hedef.parentNode.insertBefore(kutu, hedef);
       } else {
         ref.parentNode.insertBefore(kutu, ref);
       }
