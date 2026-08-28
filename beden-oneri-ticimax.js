@@ -1223,7 +1223,7 @@ const bedenOneri = (function () {
 
 } catch (e) { if (window.console) console.error("BedenOneri widget:", e); }
 
-/* === Butonu BEDEN ile "Sepete Ekle" satırı ARASINA koy === */
+/* === Butonu KÜÇÜK yapıp Sepete Ekle satırının ÜSTÜne, ayrı satırda koy === */
 (function () {
   var n = 0;
   function sepetBul() {
@@ -1237,16 +1237,13 @@ const bedenOneri = (function () {
     }
     return null;
   }
-  // Sepete Ekle'yi içeren YATAY satırı (flex-direction row) yukarı doğru bul
   function yataySatirBul(el) {
     var cur = el;
     for (var k = 0; k < 7 && cur && cur.parentNode; k++) {
       var p = cur.parentNode;
       try {
         var cs = window.getComputedStyle(p);
-        if ((cs.display === 'flex' || cs.display === 'inline-flex') && cs.flexDirection !== 'column') {
-          return p; // bu yatay satırın ÜSTÜne koyacağız
-        }
+        if ((cs.display === 'flex' || cs.display === 'inline-flex') && cs.flexDirection !== 'column') return p;
       } catch (e) {}
       cur = p;
     }
@@ -1258,24 +1255,30 @@ const bedenOneri = (function () {
       var ref = sepetBul();
       if (!ref || !ref.parentNode) { if (n++ < 25) setTimeout(yap, 400); return; }
 
+      // Kendi satırını kaplayan ama içeriği ortalı, tam genişlik OLMAYAN kutu
       var kutu = document.createElement('div');
       kutu.className = 'beden-oneri-kutu';
       kutu.style.width = '100%';
       kutu.style.flex = '0 0 100%';
-      kutu.style.margin = '4px 0 14px';
+      kutu.style.textAlign = 'center';
+      kutu.style.margin = '2px 0 14px';
 
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'bo-tetik bo-tetik--ghost beden-oneri-btn';
-      b.style.width = '100%';
-      b.style.justifyContent = 'center';
-      b.innerHTML = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7v3M10 7v4M14 7v3M18 7v4"/></svg>Hangi beden bana uyar?';
+      // KÜÇÜK buton: tam genişlik değil, dar padding, küçük yazı
+      b.style.width = 'auto';
+      b.style.display = 'inline-flex';
+      b.style.padding = '10px 20px';
+      b.style.fontSize = '13.5px';
+      b.style.borderWidth = '1.4px';
+      b.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:7px"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7v3M10 7v4M14 7v3M18 7v4"/></svg>Hangi beden bana uyar?';
       b.onclick = function () { try { if (window.bedenOneri) window.bedenOneri.ac(); } catch (e) {} };
       kutu.appendChild(b);
 
       var satir = yataySatirBul(ref);
       if (satir && satir.parentNode) {
-        satir.parentNode.insertBefore(kutu, satir);      // BEDEN ile Sepete Ekle satırı arasına
+        satir.parentNode.insertBefore(kutu, satir);
       } else if (ref.parentNode && ref.parentNode.parentNode) {
         ref.parentNode.parentNode.insertBefore(kutu, ref.parentNode);
       } else {
