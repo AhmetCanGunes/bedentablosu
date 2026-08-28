@@ -1223,7 +1223,7 @@ const bedenOneri = (function () {
 
 } catch (e) { if (window.console) console.error("BedenOneri widget:", e); }
 
-/* === Butonu "Sepete Ekle" satırının ÜSTÜne, ayrı tam-genişlik blok olarak koy === */
+/* === Butonu BEDEN ile "Sepete Ekle" satırı ARASINA koy === */
 (function () {
   var n = 0;
   function sepetBul() {
@@ -1237,18 +1237,20 @@ const bedenOneri = (function () {
     }
     return null;
   }
-  // "Sepete Ekle"yi içeren FLEX satırını (yatay dizili kapsayıcıyı) yukarı doğru bul
-  function satirBul(el) {
+  // Sepete Ekle'yi içeren YATAY satırı (flex-direction row) yukarı doğru bul
+  function yataySatirBul(el) {
     var cur = el;
-    for (var k = 0; k < 6 && cur && cur.parentNode; k++) {
+    for (var k = 0; k < 7 && cur && cur.parentNode; k++) {
       var p = cur.parentNode;
       try {
-        var disp = window.getComputedStyle(p).display;
-        if (disp === 'flex' || disp === 'inline-flex') return cur; // bu satırın üstüne koyacağız
+        var cs = window.getComputedStyle(p);
+        if ((cs.display === 'flex' || cs.display === 'inline-flex') && cs.flexDirection !== 'column') {
+          return p; // bu yatay satırın ÜSTÜne koyacağız
+        }
       } catch (e) {}
       cur = p;
     }
-    return el.parentNode || el; // bulunamazsa en yakın kapsayıcı
+    return null;
   }
   function yap() {
     try {
@@ -1256,12 +1258,11 @@ const bedenOneri = (function () {
       var ref = sepetBul();
       if (!ref || !ref.parentNode) { if (n++ < 25) setTimeout(yap, 400); return; }
 
-      // Butonu, tam genişlik kaplayan ayrı bir kapsayıcıya koy (flex satırına girmesin)
       var kutu = document.createElement('div');
       kutu.className = 'beden-oneri-kutu';
       kutu.style.width = '100%';
       kutu.style.flex = '0 0 100%';
-      kutu.style.margin = '0 0 12px';
+      kutu.style.margin = '4px 0 14px';
 
       var b = document.createElement('button');
       b.type = 'button';
@@ -1272,9 +1273,11 @@ const bedenOneri = (function () {
       b.onclick = function () { try { if (window.bedenOneri) window.bedenOneri.ac(); } catch (e) {} };
       kutu.appendChild(b);
 
-      var satir = satirBul(ref);           // Sepete Ekle'nin bulunduğu yatay satır
+      var satir = yataySatirBul(ref);
       if (satir && satir.parentNode) {
-        satir.parentNode.insertBefore(kutu, satir);   // o satırın ÜSTÜne
+        satir.parentNode.insertBefore(kutu, satir);      // BEDEN ile Sepete Ekle satırı arasına
+      } else if (ref.parentNode && ref.parentNode.parentNode) {
+        ref.parentNode.parentNode.insertBefore(kutu, ref.parentNode);
       } else {
         ref.parentNode.insertBefore(kutu, ref);
       }
