@@ -210,7 +210,7 @@ try {
 
   @media (max-width:560px){
     .bo-overlay{padding:0;align-items:flex-end;}
-    .bo-modal{padding:20px 16px 24px;border-radius:16px 16px 0 0;max-height:94vh;width:100%;}
+    .bo-modal{padding:20px 16px calc(124px + env(safe-area-inset-bottom,0px));border-radius:16px 16px 0 0;max-height:94vh;width:100%;}
     .bo-modal.bo-panel-modu{max-width:100%;}
     .bo-baslik{font-size:24px;} .bo-kartlar{gap:8px;}
     .bo-kart{padding:10px 4px 12px;} .bo-kart svg{height:80px;}
@@ -765,36 +765,8 @@ const bedenOneri = (function () {
     }
   }
 
-  // Mobilde alttaki sabit "Sepete Ekle" çubuğunun yüksekliğini ölç
-  function altCubukYuksekligi(){
-    var h = 0, els = document.body ? document.body.querySelectorAll("*") : [];
-    for (var i = 0; i < els.length; i++){
-      var el = els[i];
-      if (el === overlay || overlay.contains(el)) continue; // kendi panelimiz hariç
-      var cs;
-      try { cs = window.getComputedStyle(el); } catch(e){ continue; }
-      if (cs.position !== "fixed" && cs.position !== "sticky") continue;
-      if (cs.display === "none" || cs.visibility === "hidden") continue;
-      var r = el.getBoundingClientRect();
-      if (r.height > 20 && r.height < window.innerHeight * 0.5 &&
-          r.bottom >= window.innerHeight - 6 && r.top > window.innerHeight * 0.45){
-        if (r.height > h) h = r.height;
-      }
-    }
-    return Math.round(h);
-  }
-  // Panel açıkken mobilde çubuğun üstünde bitsin (örtülmesin)
-  function mobilBoslukAyarla(acikMi){
-    var modal = overlay.querySelector(".bo-modal");
-    if (!acikMi || window.innerWidth > 560){
-      overlay.style.paddingBottom = "";
-      modal.style.maxHeight = "";
-      return;
-    }
-    var h = altCubukYuksekligi();
-    overlay.style.paddingBottom = h ? (h + "px") : "";
-    modal.style.maxHeight = (window.innerHeight - h - 12) + "px";
-  }
+  // Mobilde alt boşluk artık CSS ile veriliyor (aşağıdaki @media kuralı)
+  function mobilBoslukAyarla(){ /* no-op */ }
 
   function ac(key, opts){
     secenekler = opts || {};
