@@ -1228,20 +1228,9 @@ const bedenOneri = (function () {
 
 } catch (e) { if (window.console) console.error("BedenOneri widget:", e); }
 
-/* === Butonu düzgün BLOK buton yap, satın alma kutusuna (beden ile Sepete Ekle arası) koy === */
+/* === Butonu BEDEN satırının (.eksecenekLine.kutuluvaryasyon) hemen ALTINA koy === */
 (function () {
   var n = 0;
-  function sepetBul() {
-    var sel = ['.SepeteEkle', '#SepeteEkle', 'a.SepeteEkle', '.btnSepeteEkle',
-               '.sepeteEkle', '[onclick*="SepeteEkle"]', '[onclick*="sepeteEkle"]', '[onclick*="SepeteAt"]'];
-    for (var i = 0; i < sel.length; i++) { var e = document.querySelector(sel[i]); if (e) return e; }
-    var list = document.querySelectorAll('button, a, input[type="button"], input[type="submit"], .btn');
-    for (var j = 0; j < list.length; j++) {
-      var t = (list[j].textContent || list[j].value || '').trim().toLowerCase();
-      if (t === 'sepete ekle') return list[j];
-    }
-    return null;
-  }
   function butonYap() {
     var kutu = document.createElement('div');
     kutu.className = 'beden-oneri-kutu';
@@ -1252,7 +1241,7 @@ const bedenOneri = (function () {
     ks.setProperty('width', '100%', 'important');
     ks.setProperty('box-sizing', 'border-box', 'important');
     ks.setProperty('text-align', 'center', 'important');
-    ks.setProperty('margin', '8px 0 16px', 'important');
+    ks.setProperty('margin', '4px 0 10px', 'important');
 
     var b = document.createElement('button');
     b.type = 'button';
@@ -1282,14 +1271,19 @@ const bedenOneri = (function () {
       if (document.querySelector('.beden-oneri-btn')) return;
       var kutu = butonYap();
 
-      // 1) En sağlam: temanın satın alma kutusunun en üstüne
+      // 1) BEDEN satırının (kutuluvaryasyon) hemen ALTINA
+      var bedenler = document.querySelectorAll('#divUrunEkSecenek .eksecenekLine.kutuluvaryasyon');
+      var beden = bedenler.length ? bedenler[bedenler.length - 1] : null;
+      if (beden && beden.parentNode) {
+        beden.parentNode.insertBefore(kutu, beden.nextSibling);
+        return;
+      }
+      // 2) Yedek: Sepete Ekle kutusundan (#divSatinAl) hemen ÖNCE
       var satinAl = document.getElementById('divSatinAl');
-      if (satinAl) { satinAl.insertBefore(kutu, satinAl.firstChild); return; }
-
-      // 2) Yedek: Sepete Ekle'nin hemen üstüne
-      var ref = sepetBul();
-      if (ref && ref.parentNode) { ref.parentNode.insertBefore(kutu, ref); return; }
-
+      if (satinAl && satinAl.parentNode) {
+        satinAl.parentNode.insertBefore(kutu, satinAl);
+        return;
+      }
       if (n++ < 25) setTimeout(yap, 400);
     } catch (e) {}
   }
