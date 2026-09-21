@@ -765,6 +765,37 @@ const bedenOneri = (function () {
     }
   }
 
+  // Mobilde alttaki sabit "Sepete Ekle" çubuğunun yüksekliğini ölç
+  function altCubukYuksekligi(){
+    var h = 0, els = document.body ? document.body.querySelectorAll("*") : [];
+    for (var i = 0; i < els.length; i++){
+      var el = els[i];
+      if (el === overlay || overlay.contains(el)) continue; // kendi panelimiz hariç
+      var cs;
+      try { cs = window.getComputedStyle(el); } catch(e){ continue; }
+      if (cs.position !== "fixed" && cs.position !== "sticky") continue;
+      if (cs.display === "none" || cs.visibility === "hidden") continue;
+      var r = el.getBoundingClientRect();
+      if (r.height > 20 && r.height < window.innerHeight * 0.5 &&
+          r.bottom >= window.innerHeight - 6 && r.top > window.innerHeight * 0.45){
+        if (r.height > h) h = r.height;
+      }
+    }
+    return Math.round(h);
+  }
+  // Panel açıkken mobilde çubuğun üstünde bitsin (örtülmesin)
+  function mobilBoslukAyarla(acikMi){
+    var modal = overlay.querySelector(".bo-modal");
+    if (!acikMi || window.innerWidth > 560){
+      overlay.style.paddingBottom = "";
+      modal.style.maxHeight = "";
+      return;
+    }
+    var h = altCubukYuksekligi();
+    overlay.style.paddingBottom = h ? (h + "px") : "";
+    modal.style.maxHeight = (window.innerHeight - h - 12) + "px";
+  }
+
   function ac(key, opts){
     secenekler = opts || {};
     aktifKol = (key && URUNLER[key]) ? key : null;
@@ -775,6 +806,7 @@ const bedenOneri = (function () {
     ANALITIK("acildi", { urun: aktifKol || "panel" });
     tabloAc();
     document.getElementById("bo-intro").classList.add("bo-acik");
+    setTimeout(function(){ mobilBoslukAyarla(true); }, 30);
   }
 
   // Kayıtlı ölçüleri forma doldur (ölçü hatırlama)
@@ -829,6 +861,7 @@ const bedenOneri = (function () {
     overlay.querySelector(".bo-modal").classList.remove("bo-panel-modu");
     document.getElementById("bo-tablo-katman").classList.remove("bo-acik");
     document.getElementById("bo-intro").classList.remove("bo-acik");
+    mobilBoslukAyarla(false);
     document.body.style.overflow = "";
   }
 
@@ -1223,7 +1256,7 @@ const bedenOneri = (function () {
 
 } catch (e) { if (window.console) console.error("BedenOneri widget:", e); }
 
-/* === Butonu KOMPAKT (dar çerçeve) yapıp Sepete Ekle satırının üstüne ortala === */
+/* === Butonu KOMPAKT yapıp Sepete Ekle satırının üstüne ortala === */
 (function () {
   var n = 0;
   function sepetBul() {
@@ -1256,7 +1289,6 @@ const bedenOneri = (function () {
       var ref = sepetBul();
       if (!ref || !ref.parentNode) { if (n++ < 25) setTimeout(yap, 400); return; }
 
-      // Ortalayan kapsayıcı (flex + center)
       var kutu = document.createElement('div');
       kutu.className = 'beden-oneri-kutu';
       var ks = kutu.style;
@@ -1265,7 +1297,6 @@ const bedenOneri = (function () {
       ks.setProperty('width', '100%', 'important');
       ks.setProperty('margin', '2px 0 14px', 'important');
 
-      // Kompakt buton — genişlik içerik kadar, tema ezmesin diye !important
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'bo-tetik bo-tetik--ghost beden-oneri-btn';
