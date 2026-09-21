@@ -1228,7 +1228,7 @@ const bedenOneri = (function () {
 
 } catch (e) { if (window.console) console.error("BedenOneri widget:", e); }
 
-/* === Butonu #divUrunEkSecenek kutusunun hemen ALTINA (kardeş olarak) koy === */
+/* === Butonu #divUrunEkSecenek altına, KÜÇÜK ve SOLA yaslı koy === */
 (function () {
   var n = 0;
   function butonYap() {
@@ -1240,8 +1240,8 @@ const bedenOneri = (function () {
     ks.setProperty('float', 'none', 'important');
     ks.setProperty('width', '100%', 'important');
     ks.setProperty('box-sizing', 'border-box', 'important');
-    ks.setProperty('text-align', 'center', 'important');
-    ks.setProperty('margin', '0 0 10px', 'important');
+    ks.setProperty('text-align', 'left', 'important');   /* SOLA yasla */
+    ks.setProperty('margin', '0 0 8px', 'important');
     ks.setProperty('padding', '0', 'important');
 
     var b = document.createElement('button');
@@ -1252,17 +1252,18 @@ const bedenOneri = (function () {
     s.setProperty('align-items', 'center', 'important');
     s.setProperty('justify-content', 'center', 'important');
     s.setProperty('width', 'auto', 'important');
-    s.setProperty('max-width', '360px', 'important');
     s.setProperty('float', 'none', 'important');
+    s.setProperty('margin', '0', 'important');
     s.setProperty('text-decoration', 'none', 'important');
-    s.setProperty('padding', '12px 26px', 'important');
-    s.setProperty('font-size', '14px', 'important');
+    /* KÜÇÜK buton */
+    s.setProperty('padding', '8px 16px', 'important');
+    s.setProperty('font-size', '12.5px', 'important');
     s.setProperty('font-weight', '600', 'important');
     s.setProperty('line-height', '1', 'important');
-    s.setProperty('border-width', '1.5px', 'important');
-    s.setProperty('border-radius', '10px', 'important');
+    s.setProperty('border-width', '1.3px', 'important');
+    s.setProperty('border-radius', '8px', 'important');
     s.setProperty('cursor', 'pointer', 'important');
-    b.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;flex:0 0 auto"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7v3M10 7v4M14 7v3M18 7v4"/></svg>Hangi beden bana uyar?';
+    b.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;flex:0 0 auto"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7v3M10 7v4M14 7v3M18 7v4"/></svg>Hangi beden bana uyar?';
     b.onclick = function () { try { if (window.bedenOneri) window.bedenOneri.ac(); } catch (e) {} };
     kutu.appendChild(b);
     return kutu;
@@ -1271,14 +1272,11 @@ const bedenOneri = (function () {
     try {
       if (document.querySelector('.beden-oneri-btn')) return;
       var kutu = butonYap();
-
-      // 1) #divUrunEkSecenek kutusunun hemen ALTINA (kardeş) — fazla boşluk olmaz
       var ekSecenek = document.getElementById('divUrunEkSecenek');
       if (ekSecenek && ekSecenek.parentNode) {
         ekSecenek.parentNode.insertBefore(kutu, ekSecenek.nextSibling);
         return;
       }
-      // 2) Yedek: Sepete Ekle kutusundan (#divSatinAl) hemen ÖNCE
       var satinAl = document.getElementById('divSatinAl');
       if (satinAl && satinAl.parentNode) {
         satinAl.parentNode.insertBefore(kutu, satinAl);
