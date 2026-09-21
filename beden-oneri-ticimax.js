@@ -1228,7 +1228,7 @@ const bedenOneri = (function () {
 
 } catch (e) { if (window.console) console.error("BedenOneri widget:", e); }
 
-/* === Butonu BEDEN satırının (.eksecenekLine.kutuluvaryasyon) hemen ALTINA koy === */
+/* === Butonu #divUrunEkSecenek kutusunun hemen ALTINA (kardeş olarak) koy === */
 (function () {
   var n = 0;
   function butonYap() {
@@ -1241,7 +1241,8 @@ const bedenOneri = (function () {
     ks.setProperty('width', '100%', 'important');
     ks.setProperty('box-sizing', 'border-box', 'important');
     ks.setProperty('text-align', 'center', 'important');
-    ks.setProperty('margin', '4px 0 10px', 'important');
+    ks.setProperty('margin', '0 0 10px', 'important');
+    ks.setProperty('padding', '0', 'important');
 
     var b = document.createElement('button');
     b.type = 'button';
@@ -1271,11 +1272,10 @@ const bedenOneri = (function () {
       if (document.querySelector('.beden-oneri-btn')) return;
       var kutu = butonYap();
 
-      // 1) BEDEN satırının (kutuluvaryasyon) hemen ALTINA
-      var bedenler = document.querySelectorAll('#divUrunEkSecenek .eksecenekLine.kutuluvaryasyon');
-      var beden = bedenler.length ? bedenler[bedenler.length - 1] : null;
-      if (beden && beden.parentNode) {
-        beden.parentNode.insertBefore(kutu, beden.nextSibling);
+      // 1) #divUrunEkSecenek kutusunun hemen ALTINA (kardeş) — fazla boşluk olmaz
+      var ekSecenek = document.getElementById('divUrunEkSecenek');
+      if (ekSecenek && ekSecenek.parentNode) {
+        ekSecenek.parentNode.insertBefore(kutu, ekSecenek.nextSibling);
         return;
       }
       // 2) Yedek: Sepete Ekle kutusundan (#divSatinAl) hemen ÖNCE
